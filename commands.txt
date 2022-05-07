@@ -1,0 +1,17 @@
+//create project
+symfony new ecommerce
+
+//get basic tools
+composer require maker doctrine phpunit debug
+
+//create User entity class and migrate
+symfony console make:entity
+symfony console make:migration
+symfony console doctrine:migrations:migrate
+
+//get doctrine orm fixtures
+composer require --dev orm-fixtures
+
+//load fixtures
+symfony console doctrine:fixtures:load
+symfony console doctrine:fixtures:load --purge-with-truncate //to truncate table before loading fixtures
