@@ -9,7 +9,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-   
+   private array $data;
+
     public function load(ObjectManager $manager): void
     {
         $user = new User();

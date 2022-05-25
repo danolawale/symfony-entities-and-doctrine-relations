@@ -66,4 +66,9 @@ class User
     {
         return $this->createdAt;
     }
+
+    public static function getFixturesHandler(): string
+    {
+        return \App\DataFixtures\UserFixtures::class;
+    }
 }

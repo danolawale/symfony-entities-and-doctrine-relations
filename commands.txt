@@ -15,3 +15,6 @@ composer require --dev orm-fixtures
 //load fixtures
 symfony console doctrine:fixtures:load
 symfony console doctrine:fixtures:load --purge-with-truncate //to truncate table before loading fixtures
+
+//to run phpunit test
+symfony php bin/phpunit tests/ProductsTest.php

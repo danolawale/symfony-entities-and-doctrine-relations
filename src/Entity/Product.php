@@ -79,4 +79,9 @@ class Product
     {
         return $this->createdAt;
     }
+
+    public static function getFixturesHandler(): string
+    {
+        return \App\DataFixtures\ProductFixtures::class;
+    }
 }
