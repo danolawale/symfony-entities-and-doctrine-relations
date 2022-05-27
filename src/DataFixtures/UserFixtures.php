@@ -56,8 +56,8 @@ class UserFixtures extends Fixture implements EntityFixturesInteface
     {
         return [
             [
-                'username' => 'custom_user',
-                'password' => 'custom_pass'
+                'username' => 'danolawale',
+                'password' => 'password'
             ]
         ];
     }

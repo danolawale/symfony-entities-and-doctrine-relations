@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Product;
 use App\Entity\User;
+use App\Entity\Order;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -22,8 +23,15 @@ class AppFixtures extends Fixture
         $product->setDescription("Windows Professional Laptop 2022 Model");
         $product->setPrice('75525');
 
+        $order = new Order();
+        $order->setCustomerName('Jeremiah Appiah');
+        $order->setShippingAddress1('Prince Street');
+        $order->setShippingCountryCode('GB');
+        $order->setShippingPostcode('M11 1BB');
+
         $manager->persist($user);
         $manager->persist($product);
+        $manager->persist($order);
 
         $manager->flush();
     }

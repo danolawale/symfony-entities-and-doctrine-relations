@@ -38,7 +38,7 @@ class OrderFixtures extends Fixture implements EntityFixturesInteface
     {
         return [
             [
-                'customer_name' => 'Test User',
+                'customer_name' => 'Dave Major',
                 'shipping_address_1' => '1',
                 'shipping_postcode' => 'TT1 1TT',
                 'shipping_country_code' => 'GB',

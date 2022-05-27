@@ -9,6 +9,10 @@ symfony console make:entity
 symfony console make:migration
 symfony console doctrine:migrations:migrate
 
+//check status
+symfony console doctrine:migrations:status
+symfony console doctrine:migrations:list
+
 //get doctrine orm fixtures
 composer require --dev orm-fixtures
 
