@@ -2,28 +2,33 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Order;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Utility\EntityMappingHandler;
 
-class OrderFixtures extends Fixture implements EntityFixturesInteface
+class GenericEntityFixtures extends Fixture implements EntityFixturesInteface
 {
    protected array $data;
+   private string $entityName;
 
    private StandardEntityFixturesProcessor $standardEntityFixturesProcessor;
 
    public function __construct()
    {
-    $this->standardEntityFixturesProcessor 
-    = new StandardEntityFixturesProcessor(new EntityMappingHandler);
+       $this->standardEntityFixturesProcessor 
+        = new StandardEntityFixturesProcessor(new EntityMappingHandler);
+   }
+
+   public function setEntityName(string $entityName): void
+   {
+       $this->entityName = $entityName;
    }
 
     public function load(ObjectManager $manager): void
     {
         $dataset = $this->getFixturesData();
 
-        $this->standardEntityFixturesProcessor->load($manager, $dataset, Order::class);
+        $this->standardEntityFixturesProcessor->load($manager, $dataset, $this->entityName);
     }
 
     public function setFixturesData(array $data): void
@@ -38,14 +43,6 @@ class OrderFixtures extends Fixture implements EntityFixturesInteface
 
     public function getCustomFixturesData(): array
     {
-        return [
-            [
-                'customer_name' => 'Dave Major',
-                'shipping_address_1' => '1',
-                'shipping_postcode' => 'TT1 1TT',
-                'shipping_country_code' => 'GB',
-                'shipping_address_1' => '1',
-            ]
-        ];
+        return [ ];
     }
 }

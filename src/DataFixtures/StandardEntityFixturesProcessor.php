@@ -3,14 +3,32 @@
 namespace App\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use App\Entity\Utility\EntityMappingHandler;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class StandardEntityFixturesProcessor
 {
+    private EntityManagerInterface $entityManager;
+
     protected array $data;
+
+    public function __construct(private EntityMappingHandler $entityMappingHandler)
+    {
+        
+    }
 
     public function load(ObjectManager $manager, array $dataset, string $entityName): void
     {
+        $this->entityManager = $manager;
+
         $metadata = $manager->getClassMetadata($entityName);
+        
+        $mappedAssociation = $metadata->associationMappings;
+
+        $this->entityMappingHandler->setMappedAssociation($mappedAssociation);
+
+        $foreignData = $this->entityMappingHandler->getForeignKeysData();
 
         foreach($dataset as $datum)
         {
@@ -18,12 +36,15 @@ final class StandardEntityFixturesProcessor
 
             foreach($datum as $key => $value)
             {
-                if($fieldName = $metadata->getFieldName($key))
-                {
-                    $methodName = "set". $this->getMethodName($fieldName);
+                $fieldName = $this->getFieldName($metadata, $foreignData, $key);
+                $fieldValue = $this->getFieldValue($foreignData, $key, $value);
+              
+                $methodName = "set". $this->getMethodName($fieldName);
 
-                    $entity->$methodName($value);
-                }
+                if(method_exists($entityName, $methodName))
+                {
+                    $entity->$methodName($fieldValue);
+                } 
             }
 
             $manager->persist($entity);
@@ -33,6 +54,34 @@ final class StandardEntityFixturesProcessor
 
         $this->entityName = null;
         $this->data = [];
+    }
+
+    private function getFieldName(ClassMetadata $metadata, array $foreignData, string $fieldName): string
+    {
+        if($fieldName = $metadata->getFieldName($fieldName))
+        {
+            return ($foreignData[$fieldName] ?? null) 
+                ? $foreignData[$fieldName]['fieldName'] 
+                : $fieldName;
+        }
+        else
+        {
+            throw new \Exception("Field {$fieldName} does not exist in {$metadata->name}");
+        }
+    }
+
+    private function getFieldValue(array $foreignData, string $fieldName, $fieldValue)
+    {
+        if($foreignData[$fieldName] ?? null)
+        {
+            $source = $foreignData[$fieldName]['source'];
+
+            return $this->entityManager->getRepository($source)->find($fieldValue);
+        }
+        else
+        {
+            return $fieldValue;
+        }
     }
 
     private function getMethodName(string $fieldName): string

@@ -7,7 +7,10 @@ composer require maker doctrine phpunit debug
 //create User entity class and migrate
 symfony console make:entity
 symfony console make:migration
+//or symfony console doctrine:migrations:diff
+//then
 symfony console doctrine:migrations:migrate
+//or symfony console doctrine:migrations:migrate
 
 //check status
 symfony console doctrine:migrations:status
