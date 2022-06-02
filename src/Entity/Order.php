@@ -125,8 +125,8 @@ class Order
         return $this->createdAt;
     }
 
-    public static function getFixturesHandler(): string
+    /*public static function getFixturesHandler(): string
     {
         return \App\DataFixtures\OrderFixtures::class;
-    }
+    }*/
 }

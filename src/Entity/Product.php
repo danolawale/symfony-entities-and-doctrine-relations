@@ -21,6 +21,7 @@ class Product
     /**
      * This is the owning side. This must exist in the manufacturer-product relationship
      * The product entity is on the 'many' side of this relationship
+     * The 'many' side (or owning side) has the foreign key
      */
     #[ORM\ManyToOne(targetEntity:"Manufacturer", inversedBy:"products")]
     #[ORM\JoinColumn(name:"manufacturer_id", nullable:false, referencedColumnName:"id")]

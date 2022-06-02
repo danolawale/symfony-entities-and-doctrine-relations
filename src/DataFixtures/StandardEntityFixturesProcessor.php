@@ -70,9 +70,9 @@ final class StandardEntityFixturesProcessor
         }
     }
 
-    private function getFieldValue(array $foreignData, string $fieldName, $fieldValue)
+    private function getFieldValue(array $foreignData, string $fieldName, $fieldValue = null)
     {
-        if($foreignData[$fieldName] ?? null)
+        if(($foreignData[$fieldName] ?? null) && null !== $fieldValue)
         {
             $source = $foreignData[$fieldName]['source'];
 

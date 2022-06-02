@@ -28,6 +28,10 @@ class User
     #[ORM\Column(type: 'datetime', name: 'created_at')]
     private $createdAt;
 
+    #[ORM\ManyToOne(targetEntity:"Address")]
+    //#[ORM\JoinColumn(name:"address_id", referencedColumnName:"id")] //can leave this out..can be done automatically
+    private $address;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable(); //to use current time on instantiation
@@ -67,8 +71,15 @@ class User
         return $this->createdAt;
     }
 
-    public static function getFixturesHandler(): string
+    public function getAddress(): ?Address
     {
-        return \App\DataFixtures\UserFixtures::class;
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
     }
 }
