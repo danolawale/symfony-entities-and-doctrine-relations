@@ -19,7 +19,7 @@ final class EntityMappingHandler
         {
             $targetEntity = $data['targetEntity'];
 
-            $foreignData = $data['joinColumns'];
+            $foreignData = $data['joinColumns'] ?? [];
 
             foreach($foreignData as $properties)
             {

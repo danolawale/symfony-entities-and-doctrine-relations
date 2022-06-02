@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Manufacturer;
 
 #[ORM\Table(name: 'products')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -16,6 +17,14 @@ class Product
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
+
+    /**
+     * This is the owning side. This must exist in the manufacturer-product relationship
+     * The product entity is on the 'many' side of this relationship
+     */
+    #[ORM\ManyToOne(targetEntity:"Manufacturer", inversedBy:"products")]
+    #[ORM\JoinColumn(name:"manufacturer_id", nullable:false, referencedColumnName:"id")]
+    private $manufacturer;
 
     #[ORM\Column(type: 'text')]
     private $description;
@@ -51,6 +60,18 @@ class Product
         return $this;
     }
 
+    public function getManufacturer(): Manufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(Manufacturer $manufacturer): void
+    {
+        $manufacturer->addProduct($this);
+
+        $this->manufacturer = $manufacturer;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -78,10 +99,5 @@ class Product
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public static function getFixturesHandler(): string
-    {
-        return \App\DataFixtures\ProductFixtures::class;
     }
 }

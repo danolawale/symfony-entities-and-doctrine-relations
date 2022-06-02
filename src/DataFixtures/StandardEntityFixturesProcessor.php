@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use App\Entity\Utility\EntityMappingHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 
 final class StandardEntityFixturesProcessor
 {
