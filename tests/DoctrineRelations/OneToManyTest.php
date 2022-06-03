@@ -36,13 +36,7 @@ class OneToManyTest extends DatabaseDependantTestCase
 
     protected function _createTestDataset(): array
     {
-        return [
-            Manufacturer::class => [
-                [
-                    'id' => 1,
-                    'name' => 'ACME'
-                ],
-            ],
+        return $this->getSortedDataset([
             Product::class => [
                 [
                     'id' => 1,
@@ -51,7 +45,13 @@ class OneToManyTest extends DatabaseDependantTestCase
                     'manufacturer_id' => 1,
                     'price' => 450
                 ]
-            ]
-        ];
+            ],
+            Manufacturer::class => [
+                [
+                    'id' => 1,
+                    'name' => 'ACME'
+                ],
+            ],
+        ]);
     }
 }

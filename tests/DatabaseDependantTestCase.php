@@ -6,6 +6,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\DataFixtures\AppFixturesFactory;
 use App\DataFixtures\EntityFixturesInteface;
+use App\Entity\Utility\EntityMappingHandler;
 use Monolog\Handler\Handler;
 
 class DatabaseDependantTestCase extends KernelTestCase
@@ -63,6 +64,49 @@ class DatabaseDependantTestCase extends KernelTestCase
                 
             },array_keys($dataset), $dataset);
         }
+    }
+
+    public function getSortedDataset(array $dataset): array
+    {
+        $sorted = [];
+
+        $entityMappingHandler = new EntityMappingHandler;
+
+        foreach($dataset as $entityName => $data)
+        {
+            if(!isset($sorted[$entityName]))
+            {
+                $metadata = $this->entityManager->getClassMetadata($entityName);
+
+                $entityMappingHandler->setMappedAssociation($metadata->associationMappings);
+
+                $foreignData = $entityMappingHandler->getForeignKeysData();
+
+                if(empty($foreignData))
+                {
+                    $sorted[$entityName] = $data;
+                }
+                else
+                {
+                    foreach($foreignData as $foreignKey => $info)
+                    {
+                        $source = $info['source'];
+
+                        if($dataset[$source] ?? null)
+                        {
+                            $sorted[$source] = $dataset[$source];
+                        }
+                    }
+
+                    if(!isset($sorted[$entityName]))
+                    {
+                        $sorted[$entityName] = $data;
+                    }
+                }
+            }
+        }
+
+        return $sorted;  
     }
 
     public function assertDatabaseHas(string $entityName, array $criteria)
