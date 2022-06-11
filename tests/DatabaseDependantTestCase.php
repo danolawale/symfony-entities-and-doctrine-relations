@@ -2,12 +2,15 @@
 
 namespace App\Tests;
 
+use App\DataFixtures\AppFixtures;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\DataFixtures\AppFixturesFactory;
 use App\DataFixtures\EntityFixturesInteface;
 use App\Entity\Utility\EntityMappingHandler;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Monolog\Handler\Handler;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class DatabaseDependantTestCase extends KernelTestCase
 {
@@ -20,6 +23,8 @@ class DatabaseDependantTestCase extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
 
+        $this->truncateEntities($kernel); //comment this out if working on sqlite
+
         SchemaLoader::load($this->entityManager);
 
         $this->createDataset();
@@ -31,6 +36,18 @@ class DatabaseDependantTestCase extends KernelTestCase
 
         $this->entityManager->close();
         $this->entityManager = null;
+    }
+
+    private function truncateEntities(KernelInterface $kernel)
+    {
+        //this does not truncate the tables, just deletes the entries
+        //$purger = new ORMPurger($this->entityManager);
+        //$purger->purge();
+        $this->entityManager->getConnection()->executeUpdate("SET foreign_key_checks = 0;");
+
+        DatabasePrimer::truncateAll($kernel);
+
+        $this->entityManager->getConnection()->executeUpdate("SET foreign_key_checks = 1;");
     }
 
     protected function _createTestDataset(): array

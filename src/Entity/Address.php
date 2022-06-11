@@ -34,6 +34,13 @@ class Address
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getAddressLine1(): string
     {
         return $this->address_line1;
