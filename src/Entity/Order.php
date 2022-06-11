@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -38,9 +40,13 @@ class Order
     #[ORM\Column(type: 'datetime', name: 'created_at')]
     private $createdAt;
 
+    #[ORM\OneToMany(targetEntity:"Item", mappedBy: "order")]
+    private $items;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable(); //to use current time on instantiation
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,8 +131,15 @@ class Order
         return $this->createdAt;
     }
 
-    /*public static function getFixturesHandler(): string
+    public function getItems(): Collection|array
     {
-        return \App\DataFixtures\OrderFixtures::class;
-    }*/
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
 }
