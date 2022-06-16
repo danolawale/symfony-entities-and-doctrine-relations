@@ -4,9 +4,9 @@ namespace App\Tests\DoctrineRelations;
 
 use App\Entity\Address;
 use App\Entity\User;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class ManyToOneUnidirectionalTest extends DatabaseDependantTestCase
+class ManyToOneUnidirectionalTest extends AbstractUnitTestCase
 {
     public function testCreate(): void
     {

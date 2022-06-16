@@ -4,9 +4,9 @@ namespace App\Tests\DoctrineRelations;
 
 use App\Entity\Item;
 use App\Entity\Order;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class OneToManyTest2 extends DatabaseDependantTestCase
+class OneToManyTest2 extends AbstractUnitTestCase
 {
     public function test_create(): void
     {

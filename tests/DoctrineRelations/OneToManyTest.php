@@ -4,9 +4,9 @@ namespace App\Tests\DoctrineRelations;
 
 use App\Entity\Manufacturer;
 use App\Entity\Product;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class OneToManyTest extends DatabaseDependantTestCase
+class OneToManyTest extends AbstractUnitTestCase
 {
     public function testCreate(): void
     {

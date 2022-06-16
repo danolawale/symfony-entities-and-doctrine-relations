@@ -5,9 +5,9 @@ use App\Entity\Customer;
 use App\Entity\Enums\MembershipLevelTypes;
 use App\Entity\Membership;
 use App\Entity\PrimeDiscountGroup;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class ManyToManyWithJoinEntityTest extends DatabaseDependantTestCase
+class ManyToManyWithJoinEntityTest extends AbstractUnitTestCase
 {
     public function testTwoGroupsOneCustomer(): void
     {

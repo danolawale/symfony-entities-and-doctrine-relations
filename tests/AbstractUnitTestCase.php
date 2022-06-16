@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Monolog\Handler\Handler;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class DatabaseDependantTestCase extends KernelTestCase
+abstract class AbstractUnitTestCase extends KernelTestCase
 {
     /** @var EntityManagerInterface */
     protected $entityManager;
@@ -126,35 +126,8 @@ class DatabaseDependantTestCase extends KernelTestCase
         return $sorted;  
     }
 
-    public function assertDatabaseHas(string $entityName, array $criteria)
+    public function getEntity(string $entityName, array $criteria)
     {
-        $result = $this->entityManager->getRepository($entityName)->findOneBy($criteria);
-
-        $mappedString = $this->getMappedDataAsString($criteria);
-
-        $failureMessage = "A {$entityName} record could not be found with the following attributes: {$mappedString}";
-
-        $this->assertTrue((bool)$result, $failureMessage);
-    }
-
-    public function assertDatabaseNotHas(string $entityName, array $criteria)
-    {
-        $result = $this->entityManager->getRepository($entityName)->findOneBy($criteria);
-
-        $mappedString = $this->getMappedDataAsString($criteria);
-
-        $failureMessage = "A {$entityName} record WAS found with the following attributes: {$mappedString}";
-
-        $this->assertFalse((bool)$result, $failureMessage);
-    }
-
-    public function getMappedDataAsString(array $criteria, string $separator = ' = '): string
-    {
-        $mappedData = array_map(function($key, $value) use ($separator)
-        {
-            return $key . $separator . $value;
-        }, array_keys($criteria), $criteria);
-
-        return implode(', ', $mappedData);
+        return $this->entityManager->getRepository($entityName)->findOneBy($criteria);
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Tests\DoctrineRelations;
 
 use App\Entity\Category;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class OneToManySelfJoinTest extends DatabaseDependantTestCase
+class OneToManySelfJoinTest extends AbstractUnitTestCase
 {
     public function testCreate(): void
     {

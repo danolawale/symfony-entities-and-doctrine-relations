@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use App\Entity\User;
 
-class UsersTest extends DatabaseFixturesTestCase
+class UsersTest extends AbstractUnitTestCase
 {
     public function test_dataset_is_loaded()
     {

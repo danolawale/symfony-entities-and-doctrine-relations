@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use App\Entity\Order;
 
-class OrdersTest extends DatabaseDependantTestCase
+class OrdersTest extends AbstractUnitTestCase
 {
     public function test_create(): void
     {
@@ -26,10 +26,10 @@ class OrdersTest extends DatabaseDependantTestCase
 
         $this->assertEquals(2, $order->getId());
 
-        $this->assertDatabaseHas(Order::class, [
+        $this->assertNotNull($this->getEntity(Order::class, [
             'customer_name' => $customerName,
             'shipping_postcode' => $shippingPostcode
-        ]);
+        ]));
     }
 
     public function test_update(): void
@@ -46,11 +46,11 @@ class OrdersTest extends DatabaseDependantTestCase
 
         $this->assertEquals(1, $order->getId());
 
-        $this->assertDatabaseHas(Order::class, [
+        $this->assertNotNull($this->getEntity(Order::class, [
             'customer_name' => 'Test User',
             'shipping_address_1' => '20',
             'shipping_address_2' => 'Lane Mark Street'
-        ]);
+        ]));
     }
 
     protected function _createTestDataset(): array

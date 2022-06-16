@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\Entity\Manufacturer;
 use App\Entity\Product;
 
-class ProductsTest extends DatabaseDependantTestCase
+class ProductsTest extends AbstractUnitTestCase
 {
     public function test_can_create_product(): void
     {
@@ -27,14 +27,14 @@ class ProductsTest extends DatabaseDependantTestCase
 
         $this->assertEquals(1, $product->getId());
 
-        $this->assertDatabaseHas(Product::class, [
+        $this->assertNotNull($this->getEntity(Product::class, [
             'name' => $name,
             'description' => $description
-        ]);
+        ]));
 
-        $this->assertDatabaseNotHas(Product::class, [
+        $this->assertNull($this->getEntity(Product::class, [
             'name' => $name,
             'description' => 'foo'
-        ]);
+        ]));
     }
 }

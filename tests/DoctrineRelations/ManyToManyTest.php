@@ -4,9 +4,9 @@ namespace App\Tests\DoctrineRelations;
 
 use App\Entity\InterestGroup;
 use App\Entity\User;
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 
-class ManyToManyTest extends DatabaseDependantTestCase
+class ManyToManyTest extends AbstractUnitTestCase
 {
     public function test(): void
     {

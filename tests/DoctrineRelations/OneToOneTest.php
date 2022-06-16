@@ -2,12 +2,12 @@
 
 namespace App\Tests\DoctrineRelations;
 
-use App\Tests\DatabaseDependantTestCase;
+use App\Tests\AbstractUnitTestCase;
 use App\Entity\Customer;
 use App\Entity\Cart;
 use App\Entity\Student;
 
-class OneToOneTest extends DatabaseDependantTestCase
+class OneToOneTest extends AbstractUnitTestCase
 {
     public function testCreate(): void
     {
